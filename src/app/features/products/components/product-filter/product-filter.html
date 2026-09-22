@@ -1,0 +1,69 @@
+<div class="rounded-2xl border border-slate-200/60 bg-white p-5 shadow-sm">
+  <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+    <div>
+      <h2 class="text-sm font-semibold text-brand-primary">Filtrer les produits</h2>
+      <p class="text-xs text-brand-primary/50">Affinez par catégorie, âge ou matière</p>
+    </div>
+
+    <button
+      type="button"
+      (click)="resetFilters()"
+      class="text-xs font-semibold text-brand-secondary hover:text-brand-primary transition"
+    >
+      Réinitialiser
+    </button>
+  </div>
+
+  <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
+    <!-- Catégorie -->
+    <div>
+      <label for="category" class="block text-xs font-semibold text-brand-primary/70">
+        Catégorie
+      </label>
+      <select
+        id="category"
+        [formControl]="categoryControl"
+        class="mt-1.5 w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm shadow-sm focus:border-brand-secondary focus:outline-none focus:ring-2 focus:ring-brand-secondary/20"
+      >
+        <option [ngValue]="null">Toutes les catégories</option>
+        @for (category of categories(); track category.id) {
+          <option [ngValue]="category.id">{{ category.name }}</option>
+        }
+      </select>
+    </div>
+
+    <!-- Tranche d'âge -->
+    <div>
+      <label for="ageRange" class="block text-xs font-semibold text-brand-primary/70">
+        Tranche d'âge
+      </label>
+      <select
+        id="ageRange"
+        [formControl]="ageRangeControl"
+        class="mt-1.5 w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm shadow-sm focus:border-brand-secondary focus:outline-none focus:ring-2 focus:ring-brand-secondary/20"
+      >
+        <option [ngValue]="null">Tous les âges</option>
+        @for (range of ageRanges; track range) {
+          <option [ngValue]="range">{{ range }}</option>
+        }
+      </select>
+    </div>
+
+    <!-- Matière -->
+    <div>
+      <label for="material" class="block text-xs font-semibold text-brand-primary/70">
+        Matière
+      </label>
+      <select
+        id="material"
+        [formControl]="materialControl"
+        class="mt-1.5 w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm shadow-sm focus:border-brand-secondary focus:outline-none focus:ring-2 focus:ring-brand-secondary/20"
+      >
+        <option [ngValue]="null">Toutes les matières</option>
+        @for (mat of materials; track mat) {
+          <option [ngValue]="mat">{{ mat | titlecase }}</option>
+        }
+      </select>
+    </div>
+  </div>
+</div>

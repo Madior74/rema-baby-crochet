@@ -1,0 +1,184 @@
+<div class="min-h-screen bg-brand-cream/95 py-8 animate-fade-in">
+  <div class="mx-auto max-w-2xl px-4">
+    <div class="rounded-2xl bg-white p-8 shadow-sm ring-1 ring-slate-200/60">
+      <!-- En-tête -->
+      <div class="text-center">
+        <div class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-xl bg-brand-secondary/10 text-2xl">
+          🧶
+        </div>
+        <h1 class="font-brand text-2xl font-bold text-brand-primary">
+          {{ isEditMode() ? 'Modifier le produit' : 'Nouveau produit' }}
+        </h1>
+        <p class="mt-1 text-sm text-brand-primary/50">
+          {{ isEditMode() ? 'Modifiez les informations du produit' : 'Ajoutez un nouveau produit à votre catalogue' }}
+        </p>
+      </div>
+
+      <form [formGroup]="form" (ngSubmit)="submit()" class="mt-8 space-y-6">
+        <!-- Nom -->
+        <div>
+          <label class="block text-sm font-semibold text-brand-primary/80">Nom du produit</label>
+          <input
+            type="text"
+            formControlName="name"
+            placeholder="Ex: Bonnet rose au crochet"
+            class="mt-1.5 w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm shadow-sm placeholder:text-brand-primary/30 focus:border-brand-secondary focus:outline-none focus:ring-2 focus:ring-brand-secondary/20 transition"
+          />
+          @if (form.controls.name.invalid && form.controls.name.touched) {
+            <p class="mt-1.5 text-xs text-rose-500">Le nom est obligatoire (150 caractères max).</p>
+          }
+        </div>
+
+        <!-- Description -->
+        <div>
+          <label class="block text-sm font-semibold text-brand-primary/80">Description</label>
+          <textarea
+            formControlName="description"
+            rows="4"
+            placeholder="Décrivez votre création, les matériaux utilisés, les dimensions…"
+            class="mt-1.5 w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm shadow-sm placeholder:text-brand-primary/30 focus:border-brand-secondary focus:outline-none focus:ring-2 focus:ring-brand-secondary/20 transition resize-none"
+          ></textarea>
+        </div>
+
+        <!-- Prix et Stock -->
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-semibold text-brand-primary/80">Prix (Fcfa)</label>
+            <input
+              type="number"
+              step="0.01"
+              formControlName="price"
+              placeholder="0"
+              class="mt-1.5 w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm shadow-sm placeholder:text-brand-primary/30 focus:border-brand-secondary focus:outline-none focus:ring-2 focus:ring-brand-secondary/20 transition"
+            />
+            @if (form.controls.price.invalid && form.controls.price.touched) {
+              <p class="mt-1.5 text-xs text-rose-500">Le prix doit être positif.</p>
+            }
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-brand-primary/80">Stock</label>
+            <input
+              type="number"
+              formControlName="stockQuantity"
+              placeholder="0"
+              class="mt-1.5 w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm shadow-sm placeholder:text-brand-primary/30 focus:border-brand-secondary focus:outline-none focus:ring-2 focus:ring-brand-secondary/20 transition"
+            />
+          </div>
+        </div>
+
+        <!-- Âge range -->
+        <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
+        <div class="flex flex-col gap-1.5">
+          <label for="age" class="text-xs font-semibold text-brand-primary/70">Tranche d'âge de l'enfant *</label>
+          <select id="age" name="childAge" required formControlName="ageRange" class="rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm shadow-sm focus:border-brand-secondary focus:outline-none focus:ring-2 focus:ring-brand-secondary/20 transition mt-2">
+            @for (range of ageRanges; track range) {
+              <option [value]="range">{{ range }}</option>
+            }
+          </select>
+        </div>
+          <div class="flex flex-col gap-1.5 ">
+                <label>Matière *</label>
+                <div class="flex gap-2" >
+                  @for (mat of materials; track mat) {
+                    <label class="flex items-center gap-2  rounded-xl border border-slate-200 bg-white px-4 py-1 text-xs shadow-sm cursor-pointer transition hover:bg-brand-secondary/10 hover:border-brand-secondary/30">
+                      <input type="radio" name="material" [value]="mat" formControlName="material" />
+                      <span>{{ prettyMaterial(mat) }}</span>
+                    </label>
+                  }
+                </div>
+                <span class="text-xs text-slate-500">Coton : douceur absolue pour les nouveau-nés · Classique : chaleur et tenue.</span>
+              </div>
+        </div>
+
+        <!-- Catégorie et Statut -->
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-semibold text-brand-primary/80">Catégorie</label>
+            <select
+              formControlName="categoryId"
+              class="mt-1.5 w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm shadow-sm focus:border-brand-secondary focus:outline-none focus:ring-2 focus:ring-brand-secondary/20 transition"
+            >
+              <option [value]="null" disabled>Sélectionner</option>
+              @for (cat of categories(); track cat.id) {
+                <option [ngValue]="cat.id">{{ cat.name }}</option>
+              }
+            </select>
+            @if (form.controls.categoryId.invalid && form.controls.categoryId.touched) {
+              <p class="mt-1.5 text-xs text-rose-500">La catégorie est obligatoire.</p>
+            }
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-brand-primary/80">Statut</label>
+            <select
+              formControlName="status"
+              class="mt-1.5 w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm shadow-sm focus:border-brand-secondary focus:outline-none focus:ring-2 focus:ring-brand-secondary/20 transition"
+            >
+              @for (s of statuses; track s) {
+                <option [value]="s">{{ s === 'ACTIVE' ? 'Actif' : 'Inactif' }}</option>
+              }
+            </select>
+          </div>
+        </div>
+
+        <!-- Image -->
+        <div>
+          <label class="block text-sm font-semibold text-brand-primary/80">Image du produit</label>
+          <button
+            type="button"
+            (click)="openUploadWidget()"
+            class="group relative mt-1.5 flex w-full flex-col items-center justify-center h-64 overflow-hidden rounded-xl border-2 border-dashed border-slate-200 bg-slate-50/50 transition hover:border-brand-secondary/40 hover:bg-brand-secondary/5"
+          >
+            @if (uploadedImageUrl()) {
+              <img
+                [src]="uploadedImageUrl()"
+                alt="Aperçu"
+                class="absolute inset-0 h-full w-full object-cover"
+              />
+              <div class="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-black/50 opacity-0 transition-opacity group-hover:opacity-100">
+                <svg class="h-8 w-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                <span class="text-sm font-medium text-white">Changer l'image</span>
+              </div>
+            } @else {
+              <svg class="mb-3 h-10 w-10 text-brand-primary/30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+              </svg>
+              <span class="text-sm font-medium text-brand-primary/50">Uploader une image</span>
+              <span class="mt-1 text-xs text-brand-primary/30">Cliquez pour choisir un fichier</span>
+            }
+          </button>
+          <input type="hidden" formControlName="imageUrl" />
+          <p class="mt-2 text-xs text-brand-primary/40">Formats acceptés : JPG, PNG, WebP (max 5 Mo)</p>
+        </div>
+
+        <!-- Actions -->
+        <div class="flex items-center gap-3 pt-4 border-t border-slate-100">
+          <button
+            type="submit"
+            [disabled]="submitting() || form.invalid || categories().length === 0"
+            class="flex-1 rounded-xl bg-brand-secondary px-5 py-3 text-sm font-bold text-white shadow-sm transition-all hover:bg-brand-primary disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            @if (submitting()) {
+              <span class="flex items-center justify-center gap-2">
+                <svg class="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
+                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
+                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                </svg>
+                Enregistrement…
+              </span>
+            } @else {
+              {{ isEditMode() ? 'Enregistrer les modifications' : 'Créer le produit' }}
+            }
+          </button>
+          <a
+            routerLink="/products"
+            class="rounded-xl border-2 border-slate-200 px-5 py-3 text-sm font-semibold text-brand-primary/60 hover:bg-slate-50 transition"
+          >
+            Annuler
+          </a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

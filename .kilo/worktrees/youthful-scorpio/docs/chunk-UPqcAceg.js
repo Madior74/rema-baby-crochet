@@ -1,0 +1,1 @@
+var e=[`LAINE COTON`,`LAINE CLASSIQUE`];var n=[`0-3 MOIS`,`4-6 MOIS`,`7-10 MOIS`,`1-2 ANS`,`3-5 ANS`];function o(t){return(t||``).toLowerCase().replace(/(^|\s)\S/g,r=>r.toUpperCase())}export{n,o as r,e as t};

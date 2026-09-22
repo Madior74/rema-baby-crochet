@@ -1,0 +1,1 @@
+var e={production:!0,apiUrl:`https://backend-rema-baby-crochet.onrender.com/api/v1`,authUrl:`https://backend-rema-baby-crochet.onrender.com/api/auth`,cloudinary:{cloudName:`piangwnw`,uploadPreset:`rema-baby-crochet`}};export{e as t};

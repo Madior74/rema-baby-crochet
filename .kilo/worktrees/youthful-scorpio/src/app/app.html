@@ -1,0 +1,25 @@
+
+<app-header></app-header>
+<main>
+  <router-outlet />
+</main>
+
+<app-footer></app-footer>
+
+<!-- Notifications toast -->
+<div class="fixed top-4 right-4 z-[100] flex flex-col gap-2">
+  @for (notification of notifications.notifications(); track notification.id) {
+    <div
+      class="flex items-center gap-3 rounded-xl px-4 py-3 shadow-lg ring-1 backdrop-blur-sm animate-slide-up cursor-pointer"
+      [class]="notification.type === 'success'
+        ? 'bg-emerald-50 text-emerald-800 ring-emerald-200'
+        : 'bg-rose-50 text-rose-800 ring-rose-200'"
+      (click)="notifications.dismiss(notification.id)"
+    >
+      <span class="text-lg">
+        {{ notification.type === 'success' ? '✓' : '✕' }}
+      </span>
+      <p class="text-sm font-medium">{{ notification.message }}</p>
+    </div>
+  }
+</div>
