@@ -1,0 +1,8 @@
+{
+  "name": "rema-baby-crochet",
+  "compatibility_date": "2025-01-01",
+  "assets": {
+    "directory": "./dist/rema-baby-crochet/browser",
+    "not_found_handling": "single-page-application"
+  }
+}
