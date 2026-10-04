@@ -8,12 +8,13 @@ import { adminGuard } from './core/guard/admin.guard';
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'hero',
+    component: Hero,
     pathMatch: 'full',
   },
   {
     path: 'hero',
-    component: Hero,
+    redirectTo: '',
+    pathMatch: 'full',
   },
   {
     path: 'products',
@@ -49,6 +50,10 @@ export const routes: Routes = [
   {
     path: 'a-propos',
     loadComponent: () => import('./features/a-propos/a-propos').then((m) => m.APropos),
+  },
+  {
+    path: 'contact',
+    loadComponent: () => import('./features/contact/contact').then((m) => m.Contact),
   },
   {
     path: 'login',

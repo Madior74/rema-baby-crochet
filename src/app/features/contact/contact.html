@@ -1,0 +1,138 @@
+<section class="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
+  <div class="grid grid-cols-1 gap-12 lg:grid-cols-5 lg:gap-16">
+
+    <!-- Coordonnées -->
+    <div class="lg:col-span-2">
+      <h1 class="font-brand text-3xl font-bold text-brand-primary sm:text-4xl">Contact</h1>
+      <p class="mt-4 max-w-md text-base leading-relaxed text-brand-primary/70">
+        Une question sur une création, une commande en cours ou une pièce à faire sur mesure ?
+        Écrivez-nous, la réponse vient directement de l'atelier.
+      </p>
+
+      <dl class="mt-10 space-y-6 border-t border-brand-secondary/30 pt-8 text-sm">
+        <div>
+            
+          <dt class="font-semibold text-brand-primary"> <i class="fab fa-whatsapp text-green-500  text-2xl"></i> WhatsApp et téléphone</dt>
+            
+          <dd class="mt-1">
+            <a
+              href="https://wa.me/221773908881"
+              target="_blank"
+              rel="noopener"
+              class="text-brand-primary/70 underline decoration-brand-secondary/50 underline-offset-4 hover:text-brand-secondary focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-secondary"
+            >+221 77 390 88 81</a>
+          </dd>
+        </div>
+
+        <div>
+          <dt class="font-semibold text-brand-primary"><i class="fas fa-envelope text-blue-500 text-2xl"></i> Email</dt> 
+          <dd class="mt-1">
+            <a
+              href="mailto:contact@remababycrochet.com"
+              class="break-all text-brand-primary/70 underline decoration-brand-secondary/50 underline-offset-4 hover:text-brand-secondary focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-secondary"
+            >contact@remababycrochet.com</a>
+          </dd>
+        </div>
+
+        <div>
+          <dt class="font-semibold text-brand-primary"><i class="fas fa-map-marker-alt text-red-500 text-2xl"></i> Atelier</dt>
+          <dd class="mt-1 text-brand-primary/70">Pikine, Dakar, Sénégal</dd>
+        </div>
+      </dl>
+
+      <p class="mt-10 text-sm text-brand-primary/70">
+        Pour une commande sur mesure avec tranche d'âge et matière, utilisez plutôt le
+        <a
+          routerLink="/sur-mesure"
+          class="font-semibold text-brand-secondary underline underline-offset-4 hover:text-brand-primary"
+        >formulaire sur mesure</a>.
+      </p>
+    </div>
+
+    <!-- Formulaire -->
+    <form
+      class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8 lg:col-span-3"
+      (ngSubmit)="sendWhatsApp()"
+      novalidate
+    >
+      <h2 class="font-brand text-xl font-bold text-brand-primary">Votre message</h2>
+
+      <div class="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2">
+        <div class="flex flex-col gap-1.5">
+          <label for="contact-name" class="text-sm font-semibold text-brand-primary/80">Nom</label>
+          <input
+            id="contact-name"
+            name="name"
+            type="text"
+            autocomplete="name"
+            required
+            [(ngModel)]="form.name"
+            class="rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-sm text-brand-primary focus:border-brand-secondary focus:outline-none focus:ring-2 focus:ring-brand-secondary/30"
+          />
+        </div>
+
+        <div class="flex flex-col gap-1.5">
+          <label for="contact-phone" class="text-sm font-semibold text-brand-primary/80">
+            Téléphone <span class="font-normal text-brand-primary/50">(facultatif)</span>
+          </label>
+          <input
+            id="contact-phone"
+            name="phone"
+            type="tel"
+            autocomplete="tel"
+            placeholder="77 000 00 00"
+            [(ngModel)]="form.phone"
+            class="rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-sm text-brand-primary placeholder:text-brand-primary/40 focus:border-brand-secondary focus:outline-none focus:ring-2 focus:ring-brand-secondary/30"
+          />
+        </div>
+
+        <div class="flex flex-col gap-1.5 sm:col-span-2">
+          <label for="contact-subject" class="text-sm font-semibold text-brand-primary/80">Sujet</label>
+          <select
+            id="contact-subject"
+            name="subject"
+            [(ngModel)]="form.subject"
+            class="rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-sm text-brand-primary focus:border-brand-secondary focus:outline-none focus:ring-2 focus:ring-brand-secondary/30"
+          >
+            @for (s of subjects; track s) {
+              <option [value]="s">{{ s }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="flex flex-col gap-1.5 sm:col-span-2">
+          <label for="contact-message" class="text-sm font-semibold text-brand-primary/80">Message</label>
+          <textarea
+            id="contact-message"
+            name="message"
+            rows="6"
+            required
+            [(ngModel)]="form.message"
+            class="rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-sm text-brand-primary focus:border-brand-secondary focus:outline-none focus:ring-2 focus:ring-brand-secondary/30"
+          ></textarea>
+        </div>
+      </div>
+
+      <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+        <button
+          type="submit"
+          class="inline-flex flex-1 items-center justify-center rounded-xl bg-whatsapp px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-whatsapp-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-whatsapp focus-visible:ring-offset-2"
+        >
+          Envoyer sur WhatsApp
+        </button>
+        <button
+          type="button"
+          (click)="sendEmail()"
+          class="inline-flex flex-1 items-center justify-center rounded-xl border border-brand-primary px-6 py-3 text-sm font-semibold text-brand-primary hover:bg-brand-primary hover:text-brand-cream focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-secondary focus-visible:ring-offset-2"
+        >
+          Envoyer par email
+        </button>
+      </div>
+
+      <p class="mt-4 text-xs text-brand-primary/60">
+        Le message s'ouvre dans WhatsApp ou dans votre application de messagerie, déjà rédigé.
+        Il part quand vous appuyez sur envoyer.
+      </p>
+    </form>
+  </div>
+</section>

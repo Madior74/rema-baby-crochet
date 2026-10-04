@@ -38,6 +38,12 @@
         >
           À propos
         </a>
+        <a
+          routerLink="/contact"
+          class="text-sm font-bold text-brand-primary hover:text-[#B8863C] border-b-2 border-transparent hover:border-[#B8863C] pb-0.5 transition cursor-pointer"
+        >
+          Contact
+        </a>  
       </div>
 
       <!-- Droite : Actions (Panier + Auth + Menu Mobile) -->
@@ -125,6 +131,12 @@
             class="block text-base font-bold text-brand-primary hover:text-[#B8863C] transition"
           >
             À propos
+          </a>  <a
+            routerLink="/contact"
+            (click)="closeMobileMenu()"
+            class="block text-base font-bold text-brand-primary hover:text-[#B8863C] transition"
+          >
+            Contact
           </a>
           
           <!-- Séparateur et options Auth pour mobile -->
